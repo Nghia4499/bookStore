@@ -9,6 +9,9 @@ import {
   registerFailed,
   registerStart,
   registerSuccess,
+  updateStart,
+  updateSuccess,
+  updateFailed,
 } from "./authSlice";
 import {
   deleteUserFailed,
@@ -39,6 +42,17 @@ export const registerUser = async (user, dispatch, navigate) => {
     navigate("/login");
   } catch (err) {
     dispatch(registerFailed());
+  }
+};
+
+export const updateUser = async (user, dispatch) => {
+  dispatch(updateStart());
+  try {
+    await axios.put("/user/:id", user);
+    dispatch(updateSuccess());
+    // navigate("/login");
+  } catch (err) {
+    dispatch(updateFailed());
   }
 };
 

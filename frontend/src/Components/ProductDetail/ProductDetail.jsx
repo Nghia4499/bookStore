@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { NavLink } from "react-router-dom";
 import * as Icon from "react-bootstrap-icons";
@@ -8,35 +8,9 @@ const ProductDetail = () => {
   const { id } = useParams();
   const [product, setProduct] = useState([]);
   const descriptions = product.description;
-  const user = useSelector((state) => state.auth.login.currentUser);
-
-  let storageKey = "todoList";
-  let dataString = localStorage.getItem(storageKey);
-  let todoList;
-  if (dataString) {
-    todoList = JSON.parse(dataString);
-  } else {
-    todoList = [];
-  }
-
-  const add = (product) => {
-    let have = 0;
-    if (todoList.length > 0) {
-      for (let i = 0; i < todoList.length; i++) {
-        if (todoList[i]._id === product._id) {
-          have = 1;
-        }
-      }
-      console.log(have);
-      if (have !== 1) {
-        todoList.push({ ...product, qty: 1 });
-        localStorage.setItem(storageKey, JSON.stringify(todoList));
-      }
-    } else {
-      todoList.push({ ...product, qty: 1 });
-      localStorage.setItem(storageKey, JSON.stringify(todoList));
-    }
-  };
+  const [user, setUser] = useState(
+    useSelector((state) => state.auth.login.currentUser)
+  );
 
   useEffect(() => {
     const getProduct = async () => {
@@ -45,6 +19,44 @@ const ProductDetail = () => {
     };
     getProduct();
   }, []);
+
+  useEffect(() => {
+    const getUser = async () => {
+      if (user) {
+        const response = await fetch(`http://localhost:8000/user/${user._id}`);
+        setUser(await response.json());
+      }
+    };
+    getUser();
+  }, []);
+
+  async function editData(apiEdit, data) {
+    let options = {
+      method: "PUT",
+      headers: {
+        "content-type": "application/json",
+      },
+      body: JSON.stringify(data),
+    };
+
+    const response = await fetch(apiEdit, options);
+    const data2 = await response.json();
+  }
+
+  const addProduct = () => {
+    let have = 0;
+    for (let i = 0; i < user.products.length; i++) {
+      if (product._id === user.products[i]._id) {
+        have = 1;
+      }
+    }
+    if (have === 0) {
+      let edit = {
+        products: [...user.products, {...product, qty: 1}],
+      };
+      editData(`http://localhost:8000/user/${user._id}`, edit);
+    }
+  };
 
   const ShowProduct = () => {
     return (
@@ -79,33 +91,44 @@ const ProductDetail = () => {
             </ul>
           </div>
           <h3 className="display-6 fw-bold my-4">$ {product.price}</h3>
-          <button
-            className="btn btn-outline-dark px-4 py-2"
-            onClick={() => add(product)}
-          >
-            Add to Cart
-          </button>
-          <button className="btn btn-dark  px-4 py-2 ms-2">
-            {user ? (
-              <>
+
+          {user ? (
+            <>
+              <button
+                className="btn btn-outline-dark px-4 py-2"
+                onClick={() => addProduct()}
+              >
+                Add to Cart
+              </button>
+              <button className="btn btn-dark  px-4 py-2 ms-2">
                 <NavLink
                   to="/cart"
                   className=" text-decoration-none text-white"
                 >
                   Go to Cart
                 </NavLink>
-              </>
-            ) : (
-              <>
+              </button>
+            </>
+          ) : (
+            <>
+              <button className="btn btn-outline-dark px-4 py-2">
+                <NavLink
+                  to="/login"
+                  className=" text-decoration-none text-dark"
+                >
+                  Add to Cart
+                </NavLink>
+              </button>
+              <button className="btn btn-dark  px-4 py-2 ms-2">
                 <NavLink
                   to="/login"
                   className=" text-decoration-none text-white"
                 >
                   Go to Cart
                 </NavLink>
-              </>
-            )}
-          </button>
+              </button>
+            </>
+          )}
         </div>
       </>
     );
@@ -113,7 +136,8 @@ const ProductDetail = () => {
 
   const ShowDescriptions = () => {
     const renderList =
-      descriptions && descriptions.map((item) => <h6 className="mt-3">{item}</h6>);
+      descriptions &&
+      descriptions.map((item) => <h6 className="mt-3">{item}</h6>);
     return <div className="app mt-3">{renderList}</div>;
   };
 

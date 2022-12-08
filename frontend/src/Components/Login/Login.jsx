@@ -1,4 +1,3 @@
-import "./login.css";
 import { NavLink, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { loginUser } from "../../redux/user/apiRequest";

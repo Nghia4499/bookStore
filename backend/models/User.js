@@ -22,7 +22,7 @@ const userSchema = new mongoose.Schema(
       minlength: 6,
     },
     products: {
-      type:[String]
+      type:[Object]
     },
     isAdmin: {
       type: Boolean,

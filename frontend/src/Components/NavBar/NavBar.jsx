@@ -8,8 +8,6 @@ import * as Icon from "react-bootstrap-icons";
 
 const NavBar = () => {
   const user = useSelector((state) => state.auth.login.currentUser);
-  user.products.push("a")
-  console.log(user.products)
   const accessToken = user?.accessToken;
   const id = user?._id;
   const dispatch = useDispatch();

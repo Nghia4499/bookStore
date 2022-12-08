@@ -1,36 +1,68 @@
 import React from "react";
-import { useEffect } from "react";
-import { useState } from "react";
+import { useSelector } from "react-redux";
+import { useEffect, useState } from "react";
 import * as Icon from "react-bootstrap-icons";
 
 const Cart = () => {
-  const storageKey = "todoList";
-  const [dataString, setDataString] = useState(
-    localStorage.getItem(storageKey)
+  const [user, setUser] = useState(
+    useSelector((state) => state.auth.login.currentUser)
   );
-  let todoList = JSON.parse(dataString);
+
+  let data = user.products;
+
+  // console.log(data);
+
+  useEffect(() => {
+    const getUser = async () => {
+      if (user) {
+        const response = await fetch(`http://localhost:8000/user/${user._id}`);
+        setUser(await response.json());
+      }
+    };
+    getUser();
+  }, [data]);
+
+  async function editData(apiEdit, data) {
+    let options = {
+      method: "PUT",
+      headers: {
+        "content-type": "application/json",
+      },
+      body: JSON.stringify(data),
+    };
+
+    const response = await fetch(apiEdit, options);
+    const data2 = await response.json();
+  }
+
+  const editProduct = () => {
+    let edit = {
+      products: data,
+    };
+    editData(`http://localhost:8000/user/${user._id}`, edit);
+  };
 
   const increase = (productID) => {
-    for (let product of todoList) {
-      if (product._id == productID) {
-        product.qty++;
+    for (let i = 0; i < data.length; i++) {
+      if (data[i]._id == productID) {
+        data[i].qty = data[i].qty + 1;
       }
     }
-    localStorage.setItem(storageKey, JSON.stringify(todoList));
-    setDataString(localStorage.getItem(storageKey));
+    console.log(data);
   };
 
   const decrease = (productID) => {
-    for (let product of todoList) {
-      if (product._id == productID && product.qty > 1) {
-        product.qty--;
-      } else if (product._id == productID) {
-        todoList = todoList.filter((items) => items._id !== productID);
-        console.log(todoList);
+    for (let i = 0; i < data.length; i++) {
+      if (data[i]._id == productID && data[i].qty > 1) {
+        data[i].qty = data[i].qty - 1;
+        console.log(data);
+      }
+      else if (data[i]._id == productID) {
+        data = data.filter(
+          (items) => items._id !== productID
+        );
       }
     }
-    localStorage.setItem(storageKey, JSON.stringify(todoList));
-    setDataString(localStorage.getItem(storageKey));
   };
 
   const totalEachProduct = (product) => {
@@ -39,17 +71,17 @@ const Cart = () => {
 
   const totalAllProduct = () => {
     let total = 0;
-    for (let i = 0; i < todoList.length; i++) {
-      total = total + todoList[i].qty * todoList[i].price;
+    for (let i = 0; i < user.products.length; i++) {
+      total = total + user.products[i].qty * user.products[i].price;
     }
     return total;
   };
 
   const ShowProducts = () => {
-    if (todoList.length > 0) {
+    if (user.products.length > 0) {
       return (
         <>
-          {todoList.map((product) => {
+          {user.products.map((product) => {
             return (
               <>
                 <div
@@ -93,7 +125,10 @@ const Cart = () => {
                       <button
                         type="button"
                         className="btn btn-secondary mt-0"
-                        onClick={() => decrease(product._id)}
+                        onClick={() => {
+                          decrease(product._id);
+                          editProduct();
+                        }}
                       >
                         <Icon.DashLg />
                       </button>
@@ -106,7 +141,10 @@ const Cart = () => {
                       <button
                         type="button"
                         className="btn btn-secondary mt-0"
-                        onClick={() => increase(product._id)}
+                        onClick={() => {
+                          increase(product._id);
+                          editProduct();
+                        }}
                       >
                         <Icon.PlusLg />
                       </button>
@@ -128,13 +166,16 @@ const Cart = () => {
   };
 
   const YourCart = () => {
-    if (todoList.length > 0) {
+    if (user.products.length > 0) {
       return (
         <>
-          {todoList.map((product) => {
+          {user.products.map((product) => {
             return (
               <>
-                <li className="list-group-item d-flex justify-content-between lh-sm m-0">
+                <li
+                  className="list-group-item d-flex justify-content-between lh-sm m-0"
+                  key={product._id}
+                >
                   <div>
                     <h6 className="my-0" style={{ maxWidth: "250px" }}>
                       {product.name}
@@ -163,11 +204,11 @@ const Cart = () => {
               <h4 className="d-flex justify-content-between align-items-center mb-3">
                 <span className="text-primary">Your cart</span>
                 <span className="badge bg-primary rounded-pill">
-                  {todoList.length}
+                  {user.products.length}
                 </span>
               </h4>
               <ul className="list-group m-0">
-                <YourCart />
+                {/* <YourCart /> */}
                 <li className="list-group-item d-flex justify-content-between bg-light m-0">
                   <div className="text-success">
                     <h6 className="my-0">Promo code</h6>
@@ -195,86 +236,86 @@ const Cart = () => {
             </div>
             <div className="col-12 col-md-7 col-lg-6">
               <h2 className="mb-3">Thông tin nhận hàng</h2>
-                <div className="row g-3">
-                  <div className="col-sm-6">
-                    <label htmlFor="firstName" className="d-flex form-label">
-                      <h5>Họ</h5>{" "}
-                      <span className="text-muted">
-                        <h5>(Bắt buộc)</h5>
-                      </span>
-                    </label>
-                    <input
-                      type="text"
-                      className="form-control"
-                      id="firstName"
-                      placeholder="Nguyễn"
-                      required
-                    />
-                  </div>
-                  <div className="col-sm-6">
-                    <label htmlFor="lastName" className="d-flex form-label">
-                      <h5>Tên</h5>{" "}
-                      <span className="text-muted">
-                        <h5>(Bắt buộc)</h5>
-                      </span>
-                    </label>
-                    <input
-                      type="text"
-                      className="form-control"
-                      id="lastName"
-                      placeholder="A"
-                      required
-                    />
-                  </div>
-
-                  <div className="col-12">
-                    <label htmlFor="email" className="d-flex form-label">
-                      <h5>Email</h5>{" "}
-                      <span className="text-muted">
-                        <h5>(Không bắt buộc)</h5>
-                      </span>
-                    </label>
-                    <input
-                      type="email"
-                      className="form-control"
-                      id="email"
-                      placeholder="you@gmail.com"
-                    />
-                  </div>
-                  <div className="col-12">
-                    <label htmlFor="address" className="d-flex form-label">
-                      <h5>Địa chỉ</h5>{" "}
-                      <span className="text-muted">
-                        <h5>(Bắt buộc)</h5>
-                      </span>
-                    </label>
-                    <input
-                      type="text"
-                      className="form-control"
-                      id="address"
-                      placeholder="số nhà, tên đường, phường, quận"
-                      required
-                    />
-                  </div>
-                  <div className="col-12">
-                    <label htmlFor="address2" className="d-flex form-label">
-                      <h5>Số điện thoại</h5>{" "}
-                      <span className="text-muted">
-                        <h5>(Bắt buộc)</h5>
-                      </span>
-                    </label>
-                    <input
-                      type="text"
-                      className="form-control"
-                      id="address2"
-                      placeholder="Số điện thoại"
-                    />
-                  </div>
+              <div className="row g-3">
+                <div className="col-sm-6">
+                  <label htmlFor="firstName" className="d-flex form-label">
+                    <h5>Họ</h5>{" "}
+                    <span className="text-muted">
+                      <h5>(Bắt buộc)</h5>
+                    </span>
+                  </label>
+                  <input
+                    type="text"
+                    className="form-control"
+                    id="firstName"
+                    placeholder="Nguyễn"
+                    required
+                  />
                 </div>
-                <hr className="my-4" />
-                <button className="w-100 btn btn-primary btn-lg" type="submit">
-                  Đặt hàng
-                </button>
+                <div className="col-sm-6">
+                  <label htmlFor="lastName" className="d-flex form-label">
+                    <h5>Tên</h5>{" "}
+                    <span className="text-muted">
+                      <h5>(Bắt buộc)</h5>
+                    </span>
+                  </label>
+                  <input
+                    type="text"
+                    className="form-control"
+                    id="lastName"
+                    placeholder="A"
+                    required
+                  />
+                </div>
+
+                <div className="col-12">
+                  <label htmlFor="email" className="d-flex form-label">
+                    <h5>Email</h5>{" "}
+                    <span className="text-muted">
+                      <h5>(Không bắt buộc)</h5>
+                    </span>
+                  </label>
+                  <input
+                    type="email"
+                    className="form-control"
+                    id="email"
+                    placeholder="you@gmail.com"
+                  />
+                </div>
+                <div className="col-12">
+                  <label htmlFor="address" className="d-flex form-label">
+                    <h5>Địa chỉ</h5>{" "}
+                    <span className="text-muted">
+                      <h5>(Bắt buộc)</h5>
+                    </span>
+                  </label>
+                  <input
+                    type="text"
+                    className="form-control"
+                    id="address"
+                    placeholder="số nhà, tên đường, phường, quận"
+                    required
+                  />
+                </div>
+                <div className="col-12">
+                  <label htmlFor="address2" className="d-flex form-label">
+                    <h5>Số điện thoại</h5>{" "}
+                    <span className="text-muted">
+                      <h5>(Bắt buộc)</h5>
+                    </span>
+                  </label>
+                  <input
+                    type="text"
+                    className="form-control"
+                    id="address2"
+                    placeholder="Số điện thoại"
+                  />
+                </div>
+              </div>
+              <hr className="my-4" />
+              <button className="w-100 btn btn-primary btn-lg" type="submit">
+                Đặt hàng
+              </button>
             </div>
           </div>
         </main>

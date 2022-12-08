@@ -9,6 +9,8 @@ const router = require("express").Router();
 //GET ALL USERS
 router.get("/", verifyToken, userController.getAllUsers);
 
+router.get("/:id", userController.getEachUsers);
+
 //DELETE USER
 router.delete(
   "/:id",
@@ -17,8 +19,6 @@ router.delete(
 );
 
 //UPDATE USER
-router.put(
-  "/:id", userController.updateUser
-);
+router.put("/:id", userController.updateUser);
 
 module.exports = router;
