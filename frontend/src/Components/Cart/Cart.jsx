@@ -83,7 +83,7 @@ const Cart = () => {
         <>
           {user.products.map((product) => {
             return (
-              <>
+              
                 <div
                   className="row justify-content-center mt-3 border border-3 gap-2 gap-xl-5"
                   key={product._id}
@@ -155,7 +155,7 @@ const Cart = () => {
                     </h5>
                   </div>
                 </div>
-              </>
+              
             );
           })}
         </>

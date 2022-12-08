@@ -136,8 +136,7 @@ const Products = () => {
             </div>
             <main className="product row col-10 ">
               {filter.map((product) => {
-                return (
-                  <>
+                return (                
                     <div
                       className="col-sm-12 col-md-5 col-lg-4 col-xl-4 mb-4"
                       key={product._id}
@@ -185,7 +184,6 @@ const Products = () => {
                         </div>
                       </div>
                     </div>
-                  </>
                 );
               })}
             </main>

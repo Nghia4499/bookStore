@@ -93,7 +93,7 @@ const Login = () => {
                       >
                         Bạn chưa có tài khoản?
                       </h5>
-                      <button type="button" class="btn btn-outline-secondary">
+                      <button type="button" className="btn btn-outline-secondary">
                         <NavLink
                           to="/register"
                           className="nav-link px-2 link-dark"

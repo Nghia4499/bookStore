@@ -52,7 +52,7 @@ const ProductDetail = () => {
     }
     if (have === 0) {
       let edit = {
-        products: [...user.products, {...product, qty: 1}],
+        products: [...user.products, { ...product, qty: 1 }],
       };
       editData(`http://localhost:8000/user/${user._id}`, edit);
     }
@@ -60,7 +60,7 @@ const ProductDetail = () => {
 
   const ShowProduct = () => {
     return (
-      <>
+      <div className="">
         <div className="col-md-5 px-auto my-auto">
           <img
             src={product.image}
@@ -130,14 +130,18 @@ const ProductDetail = () => {
             </>
           )}
         </div>
-      </>
+      </div>
     );
   };
 
   const ShowDescriptions = () => {
     const renderList =
       descriptions &&
-      descriptions.map((item, i) => <h6 className="mt-3" key={i}>{item}</h6>);
+      descriptions.map((item, i) => (
+        <h6 className="mt-3" key={i}>
+          {item}
+        </h6>
+      ));
     return <div className="app mt-3">{renderList}</div>;
   };
 
