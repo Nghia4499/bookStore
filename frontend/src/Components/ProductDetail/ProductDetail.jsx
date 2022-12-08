@@ -137,7 +137,7 @@ const ProductDetail = () => {
   const ShowDescriptions = () => {
     const renderList =
       descriptions &&
-      descriptions.map((item) => <h6 className="mt-3">{item}</h6>);
+      descriptions.map((item, i) => <h6 className="mt-3" key={i}>{item}</h6>);
     return <div className="app mt-3">{renderList}</div>;
   };
 

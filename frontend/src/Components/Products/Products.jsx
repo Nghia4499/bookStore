@@ -7,17 +7,14 @@ import * as Icon from "react-bootstrap-icons";
 const Products = () => {
   const [data, setData] = useState([]);
   const [filter, setFilter] = useState(data);
-  const [loading, setLoading] = useState(filter);
   let componentMounted = true;
   useEffect(() => {
     const getProducts = async () => {
-      setLoading(true);
       const response = await fetch("http://localhost:8000/book");
       console.log(response);
       if (componentMounted) {
         setData(await response.clone().json());
         setFilter(await response.json());
-        setLoading(false);
       }
 
       return () => {
@@ -26,25 +23,6 @@ const Products = () => {
     };
     getProducts();
   }, []);
-
-  const Loading = () => {
-    return (
-      <>
-        <div className="col-md-3">
-          <Skeleton height={350} />
-        </div>
-        <div className="col-md-3">
-          <Skeleton height={350} />
-        </div>
-        <div className="col-md-3">
-          <Skeleton height={350} />
-        </div>
-        <div className="col-md-3">
-          <Skeleton height={350} />
-        </div>
-      </>
-    );
-  };
 
   const filterProduct = (cat) => {
     const updatedList = data.filter((x) => {
@@ -63,7 +41,7 @@ const Products = () => {
             type="button"
             data-bs-target="#sidebar"
             data-bs-toggle="collapse"
-            class="col-12 btn-menu btn btn-outline-danger"
+            className="col-12 btn-menu btn btn-outline-danger"
           >
             Thể loại
           </button>
@@ -74,7 +52,7 @@ const Products = () => {
                   id="sidebar-nav"
                   className="list-group border-0 rounded-0 text-sm-start min-vh-100"
                 >
-                  <ul class="list-group">
+                  <ul className="list-group">
                     <button
                       type="button"
                       className="list-group-item list-group-item-action"
@@ -221,7 +199,7 @@ const Products = () => {
     <div>
       <div className="container">
         <div className="products row justify-content-center">
-          {loading ? <Loading /> : <ShowProducts />}
+        <ShowProducts />
         </div>
       </div>
     </div>
