@@ -10,6 +10,9 @@ import Footer from "./Components/Footer/Footer";
 import Products from "./Components/Products/Products";
 import ProductDetail from "./Components/ProductDetail/ProductDetail";
 import Cart from "./Components/Cart/Cart";
+import Contact from "./Components/Contact/Contact";
+import Blog from "./Components/Blog/Blog";
+import About from "./Components/About/About";
 
 function App() {
   return (
@@ -23,6 +26,9 @@ function App() {
           <Route path="/products" element={<Products />} />
           <Route path="/products/:id" element={<ProductDetail />} />
           <Route path="/cart" element={<Cart />} />
+          <Route path="/contact" element={<Contact />} />
+          <Route path="/blog" element={<Blog />} />
+          <Route path="/about" element={<About />} />
         </Routes>
       </div>
       <Footer />

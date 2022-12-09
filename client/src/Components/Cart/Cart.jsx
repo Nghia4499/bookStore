@@ -56,7 +56,6 @@ const Cart = () => {
         data = data.filter((items) => items._id !== productID);
       }
     }
-    console.log("0");
   };
 
   const totalEachProduct = (product) => {
@@ -81,12 +80,12 @@ const Cart = () => {
                 className="row justify-content-center mt-3 border border-3 gap-2 gap-xl-5"
                 key={product._id}
               >
-                <div className="col-12 col-md-4 col-lg-3 col-xl-2 ">
+                <div className="col-12 col-md-4 col-lg-3 col-xl-2 py-2">
                   <img
                     src={product.image}
                     className="cart-img card mx-auto"
                     alt={product.name}
-                    style={{ maxWidth: "200px", maxHeight: "200px" }}
+                    style={{ maxWidth: "150px", maxHeight: "150px" }}
                   />
                 </div>
                 <div className="col-md-6 col-lg-8 row gap-lg-2 col-xl-8 gap-xl-5">
@@ -126,7 +125,7 @@ const Cart = () => {
                       <Icon.DashLg />
                     </button>
                     <p
-                      className="d-flex align-items-center mx-3 pt-2"
+                      className="d-flex align-items-center fw-bold mx-3 pt-2"
                       style={{ fontSize: "20px" }}
                     >
                       {product.qty}
@@ -143,7 +142,7 @@ const Cart = () => {
                     </button>
                   </div>
 
-                  <h5 className="col-lg-3 col-xl-2 d-flex  align-items-center justify-content-center">
+                  <h5 className="col-lg-3 col-xl-2 d-flex fw-bold align-items-center justify-content-center">
                     $ {totalEachProduct(product)}
                   </h5>
                 </div>
@@ -158,10 +157,10 @@ const Cart = () => {
   };
 
   const YourCart = () => {
-    if (user.products.length > 0) {
+    if (data.length > 0) {
       return (
         <>
-          {user.products.map((product) => {
+          {data.map((product) => {
             return (
               <li
                 className="list-group-item d-flex justify-content-between lh-sm m-0"
@@ -181,6 +180,10 @@ const Cart = () => {
           })}
         </>
       );
+    } else {
+      return (
+        <></>
+      )
     }
   };
 

@@ -56,17 +56,17 @@ const NavBar = () => {
               </NavLink>
             </li>
             <li>
-              <NavLink to="#" className="nav-link px-2 link-light">
+              <NavLink to="/contact" className="nav-link px-2 link-light">
               Liên hệ
               </NavLink>
             </li>
             <li>
-              <NavLink to="#" className="nav-link px-2 link-light mx-3">
+              <NavLink to="/blog" className="nav-link px-2 link-light mx-3">
                 Blog
               </NavLink>
             </li>
             <li>
-              <NavLink to="#" className="nav-link px-2 link-light">
+              <NavLink to="/about" className="nav-link px-2 link-light">
                 About
               </NavLink>
             </li>
