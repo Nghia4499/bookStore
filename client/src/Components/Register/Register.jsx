@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { registerUser } from "../../redux/user/apiRequest";
+import img from "./register.png"
 
 const Register = () => {
   const [email, setEmail] = useState("");
@@ -95,7 +96,7 @@ const Register = () => {
                   </div>
                   <div className="col-md-10 col-lg-6 col-xl-7 d-flex align-items-center order-1 order-lg-2">
                     <img
-                      src="https://cdn.pixabay.com/photo/2016/02/09/15/57/book-1189776__340.png"
+                      src={img}
                       className="img-fluid"
                       alt="Sample image"
                     />

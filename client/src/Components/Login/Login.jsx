@@ -2,6 +2,7 @@ import { NavLink, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { loginUser } from "../../redux/user/apiRequest";
+import img from "./login.jpg";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -30,7 +31,7 @@ const Login = () => {
               <div className="row g-0">
                 <div className="col-md-6 col-lg-5 d-none d-md-block">
                   <img
-                    src="https://cdn.pixabay.com/photo/2022/11/08/07/53/desk-7577945_960_720.jpg"
+                    src={img}
                     alt="login form"
                     className="img-fluid"
                     style={{ borderRadius: "1rem 0 0 1rem" }}
@@ -82,7 +83,9 @@ const Login = () => {
                       </div>
                       {user ? (
                         <>
-                          <span className="text-danger">Vui lòng kiểm tra lại thông tin</span>
+                          <span className="text-danger">
+                            Vui lòng kiểm tra lại thông tin
+                          </span>
                         </>
                       ) : (
                         <></>

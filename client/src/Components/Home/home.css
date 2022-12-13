@@ -1,6 +1,6 @@
 #hero {
   width: 100%;
-  background-image: url("https://pixabay.com/get/g278e3ddbef8a910d47ce7f6f87ca8b6b0ca32885d9d5d0223bb863e7a5112a797e6147ca7410259ca92a72352216e01d.jpg");
+  background-image: url("./home.jpg");
   height: 100vh;
   background-position: center;
   background-repeat: no-repeat;
@@ -9,28 +9,28 @@
 
 .txtinsetshadow {
   color: #2c2c2c;
-  letter-spacing: .05em;
+  letter-spacing: 0.05em;
   text-shadow: 4px 4px 0px #d5d5d5, 7px 7px 0px rgba(0, 0, 0, 0.2);
 }
 
 #container {
   text-transform: uppercase;
-  font-size:60px;
-  font-weight:bold;
-  width:100%;
+  font-size: 60px;
+  font-weight: bold;
+  width: 100%;
 }
 
 #flip {
-  height:80px;
-  overflow:hidden;
+  height: 80px;
+  overflow: hidden;
 }
 
 #flip > div > div {
-  color:#fff;
-  padding:4px 12px;
-  height:45px;
-  margin-bottom:45px;
-  display:inline-block;
+  color: #fff;
+  padding: 4px 12px;
+  height: 45px;
+  margin-bottom: 45px;
+  display: inline-block;
 }
 
 #flip div:first-child {
@@ -38,23 +38,38 @@
 }
 
 #flip div div {
-  background:#42c58a;
+  background: #42c58a;
 }
 #flip div:first-child div {
-  background:#4ec7f3;
+  background: #4ec7f3;
 }
 #flip div:last-child div {
-  background:#DC143C;
+  background: #dc143c;
 }
 
 @keyframes show {
-  0% {margin-top:-270px;}
-  5% {margin-top:-180px;}
-  33% {margin-top:-180px;}
-  38% {margin-top:-90px;}
-  66% {margin-top:-90px;}
-  71% {margin-top:0px;}
-  99.99% {margin-top:0px;}
-  100% {margin-top:-270px;}
+  0% {
+    margin-top: -270px;
+  }
+  5% {
+    margin-top: -180px;
+  }
+  33% {
+    margin-top: -180px;
+  }
+  38% {
+    margin-top: -90px;
+  }
+  66% {
+    margin-top: -90px;
+  }
+  71% {
+    margin-top: 0px;
+  }
+  99.99% {
+    margin-top: 0px;
+  }
+  100% {
+    margin-top: -270px;
+  }
 }
-

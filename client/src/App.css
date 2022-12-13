@@ -1,6 +1,5 @@
 body {
-  background: url("https://pixabay.com/get/ge243fa6cffe1c63bcee31f643c97386c56ed5eeccf343961cf2f1a0f115c80002da2fa326863fe41d9aa2993a6b00362.jpg")
-    no-repeat center center fixed;
+  background: url("./background.jpg") no-repeat center center fixed;
   -webkit-background-size: cover;
   -moz-background-size: cover;
   background-size: cover;
